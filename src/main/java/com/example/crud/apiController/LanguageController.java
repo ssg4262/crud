@@ -1,5 +1,6 @@
 package com.example.crud.apiController;
 
+import com.example.crud.LanguageMapper;
 import com.example.crud.dto.LanguageForm;
 import com.example.crud.entity.Language;
 import com.example.crud.repository.LanguageRepository;
@@ -96,6 +97,44 @@ public class LanguageController {
 
     }
 
+    //mybatis 적용
+    @Autowired
+    private LanguageMapper languageMapper;
 
+
+    //get
+    @GetMapping("api/get/languages")
+ public List<LanguageForm> getAll(){
+        return languageMapper.getAll();
+    }
+
+    @GetMapping("api/get/languages/{id}")
+    public LanguageForm getById(@PathVariable("id") int id){
+        return languageMapper.getById(id);
+    }
+
+
+
+
+
+
+    // insert
+    @PostMapping("api/insert/languages")
+    public int post(@RequestBody LanguageForm languageForm){
+       return languageMapper.insert(languageForm);
+    }
+
+    //patch
+
+    @PutMapping ("api/patch/languages/{id}")
+    public void patchLanguage(@PathVariable("id") int id,@RequestBody  LanguageForm languageForm){
+                 String name  = languageForm.getName();
+          languageMapper.updateLanguage(id,name);
+    }
+
+    @DeleteMapping("api/delete/languages/{id}")
+    public void delete(@PathVariable("id") int id ){
+         languageMapper.deleteLanguage(id);
+    }
 
 }
